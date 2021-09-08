@@ -8,7 +8,6 @@ use App\Services\UserService;
 use App\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\Gate;
 use App\Services\ConversationService;
-use Facade\FlareClient\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StaffController extends Controller

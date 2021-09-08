@@ -6,7 +6,6 @@ use Exception;
 use App\Helpers\ResponseHelper;
 use App\Services\ConversationService;
 use App\Http\Requests\MessageStoreRequest;
-use Illuminate\Validation\ValidationException;
 
 class MessageController extends Controller
 {

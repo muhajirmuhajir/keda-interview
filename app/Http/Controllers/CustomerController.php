@@ -7,7 +7,6 @@ use Exception;
 use App\Services\ReportService;
 use App\Services\ConversationService;
 use App\Http\Requests\ReportStoreRequest;
-use Illuminate\Validation\ValidationException;
 
 class CustomerController extends Controller
 {

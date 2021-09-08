@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Services\AuthService;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
-use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {

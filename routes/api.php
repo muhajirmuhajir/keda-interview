@@ -1,13 +1,9 @@
 <?php
 
-use App\Models\Conversation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ConversationController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\StaffController;
+use App\Http\Controllers\{AuthController, CustomerController, MessageController, StaffController};
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +17,13 @@ use App\Http\Controllers\StaffController;
 */
 
 Route::group(['prefix' => 'v1', 'as' => 'v1.'], function () {
-    Route::post('login',[ AuthController::class, 'login']);
-    Route::post('register',[ AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
 
 
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::post('logout',[ AuthController::class, 'logout']);
-        Route::get('user', function(Request $request){
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('user', function (Request $request) {
             return $request->user();
         });
 
@@ -45,5 +41,4 @@ Route::group(['prefix' => 'v1', 'as' => 'v1.'], function () {
         // Route::apiResource('conversations', ConversationController::class);
         // Route::apiResource('conversations.messages', ConversationController::class);
     });
-
 });
