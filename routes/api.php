@@ -1,7 +1,13 @@
 <?php
 
+use App\Models\Conversation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\StaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +20,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('register', 'AuthController@register');
-    Route::post('login', 'AuthController@login');
-    
-    Route::get('userList','AuthController@getUserList');
+Route::group(['prefix' => 'v1', 'as' => 'v1.'], function () {
+    Route::post('login',[ AuthController::class, 'login']);
+    Route::post('register',[ AuthController::class, 'register']);
+
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('logout',[ AuthController::class, 'logout']);
+        Route::get('user', function(Request $request){
+            return $request->user();
+        });
+
+        Route::post('messages', [MessageController::class, 'createMessage'])->name('messages.create');
+        Route::get('messages', [CustomerController::class, 'chatHistory'])->name('messages.index');
+
+        Route::post('reports', [CustomerController::class, 'createReport'])->name('report.create');
+
+        Route::get('messages/history', [StaffController::class, 'allChatHistory'])->name('messages.history');
+
+        Route::get('customers', [StaffController::class, 'allCustumers'])->name('customers.index');
+
+        Route::delete('customers/{id}', [StaffController::class, 'deleteCustumer'])->name('customers.delete');
+
+        // Route::apiResource('conversations', ConversationController::class);
+        // Route::apiResource('conversations.messages', ConversationController::class);
+    });
+
 });
