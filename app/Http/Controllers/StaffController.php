@@ -5,45 +5,39 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Services\UserService;
+use App\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\Gate;
 use App\Services\ConversationService;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Facade\FlareClient\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StaffController extends Controller
 {
     public function allChatHistory(ConversationService $service)
     {
-        if(!Gate::allows('view-all-chat')){
-            return response('you are not allowed');
+        if (!Gate::allows('view-all-chat')) {
+            return ResponseHelper::error(new HttpException(403, 'You are not allowed'));
         }
-        return $service->showAllConvesation();
+        return ResponseHelper::success($service->showAllConvesation());
     }
 
     public function allCustumers(UserService $service)
     {
-        if(!Gate::allows('view-all-customer')){
-            return response('you are not allowed');
+        if (!Gate::allows('view-all-customer')) {
+            return ResponseHelper::error(new HttpException(403, 'You are not allowed'));
         }
-        return $service->users(User::CUSTOMER, true);
+        return ResponseHelper::success($service->users(User::CUSTOMER, true));
     }
 
     public function deleteCustumer($id, UserService $service)
     {
         try {
-            if(!Gate::allows('delete-customer')){
-                return response('you are not allowed');
+            if (!Gate::allows('delete-customer')) {
+                return ResponseHelper::error(new HttpException(403, 'You are not allowed'));
             }
-           return $service->deleteCustumer($id);
+            return $service->deleteCustumer($id) ? ResponseHelper::success('custumer deleted') : ResponseHelper::error(new Exception('failed to deleted'));
         } catch (Exception $e) {
-            if ($e instanceof ValidationException) {
-                return response()->json($e->errors(), $e->status);
-            }
-            if ($e instanceof ModelNotFoundException) {
-                return response()->json( ["message" => "Customer not found!"], 404);
-            }
-            return response()->json( ["message" => $e->getMessage()], 500);
+            return ResponseHelper::error($e);
         }
-
     }
 }

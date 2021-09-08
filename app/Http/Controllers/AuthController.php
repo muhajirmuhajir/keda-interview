@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
 use Exception;
 use App\Models\User;
 use App\Services\AuthService;
@@ -19,15 +20,12 @@ class AuthController extends Controller
 
             $service->register($fields['email'], $fields['password'], User::CUSTOMER);
 
-            return response()->json([
+            return ResponseHelper::success([
                 'token' => $request->user()->createToken($request->input('device_name'))->accessToken,
                 'user'  => $request->user(),
             ]);
         } catch (Exception $e) {
-            if ($e instanceof ValidationException) {
-                return response()->json($e->errors(), $e->status);
-            }
-            return $e->getMessage();
+            return ResponseHelper::error($e);
         }
     }
 
@@ -35,23 +33,18 @@ class AuthController extends Controller
     {
         try {
             $fields = $request->validated();
-
-            $service->login($fields, 1);
-
-            return response()->json([
+            $service->login($fields);
+            return ResponseHelper::success([
                 'token' => $request->user()->createToken($request->input('device_name'))->accessToken,
                 'user'  => $request->user(),
             ]);
         } catch (Exception $e) {
-            if ($e instanceof ValidationException) {
-                return response()->json($e->errors(), $e->status);
-            }
-            return $e->getMessage();
+            return ResponseHelper::error($e);
         }
     }
 
     public function logout(AuthService $service)
     {
-        return $service->logout();
+        return $service->logout() ? ResponseHelper::success('logout success'): ResponseHelper::error(new Exception('logout failed'));
     }
 }

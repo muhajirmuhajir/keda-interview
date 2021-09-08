@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
 use Exception;
 use App\Services\ReportService;
 use App\Services\ConversationService;
@@ -13,7 +14,7 @@ class CustomerController extends Controller
     public function chatHistory(ConversationService $service)
     {
         $chat_history = $service->showMyConversation();
-        return $chat_history;
+        return ResponseHelper::success($chat_history);
     }
 
 
@@ -21,12 +22,9 @@ class CustomerController extends Controller
     {
         try {
             $report  = $service->create($request->validated());
-            return $report;
+            return ResponseHelper::success($report);
         } catch (Exception $e) {
-            if ($e instanceof ValidationException) {
-                return response()->json($e->errors(), $e->status);
-            }
-            return $e->getMessage();
+           return ResponseHelper::error($e);
         }
     }
 

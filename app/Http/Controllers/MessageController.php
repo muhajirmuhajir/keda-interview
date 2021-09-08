@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Helpers\ResponseHelper;
 use App\Services\ConversationService;
 use App\Http\Requests\MessageStoreRequest;
 use Illuminate\Validation\ValidationException;
@@ -13,14 +14,10 @@ class MessageController extends Controller
     {
         try {
             $request->validated();
-
             $conversation = $service->create($request->receiver_id, $request->content, $request->type);
-            return $conversation;
+            return ResponseHelper::success($conversation);
         } catch (Exception $e) {
-            if ($e instanceof ValidationException) {
-                return response()->json($e->errors(), $e->status);
-            }
-            return $e->getMessage();
+            return ResponseHelper::error($e);
         }
     }
 }
