@@ -1,4 +1,5 @@
 <h1> Laravel Back End Keda Interview Manual</h1>
+Documentation URL : [Here](https://documenter.getpostman.com/view/9109368/U16htSeu)
 ## Guidelines to do the project's
 There are several prerequisite apps/packages before making this project, such as: <br>
 1. PHP                  : version that is used on this project is PHP 7.4.14 <br>
@@ -24,20 +25,20 @@ Tasks to be done are:
             You must only use api.php for the "routing" <br>
 
 2. Create Model for Customer and Controllers that support following features:
-    - Login
-    - Logout
-    - Message to other Customer(s)
-    - View own chat history
-    - Can report other Customer(s) or own feedback/bug to Staff
+    - [x] Login 
+    - [x] Logout 
+    - [x] Message to other Customer(s) 
+    - [x] View own chat history 
+    - [x] Can report other Customer(s) or own feedback/bug to Staff 
 
 3. Create Model for Staff and Controllers that support following features:
-    - Login
-    - Logout
-    - View all chat history
-    - View all Customer + deleted Customer
-    - Message to other Staff(s)
-    - Message to other Customer(s)
-    - Delete Customer(s)
+    - [x] Login 
+    - [x] Logout 
+    - [x] View all chat history 
+    - [x] View all Customer + deleted Customer 
+    - [x] Message to other Staff(s) 
+    - [x] Message to other Customer(s) 
+    - [x] Delete Customer(s) 
 
 4. Auth on each page or feature
 
