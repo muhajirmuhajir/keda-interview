@@ -15,12 +15,17 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
 
+    public const CUSTOMER = 1;
+    public const STAFF = 2;
+
     protected $fillable = [
         'email',
         'password',
+        'user_type_id'
     ];
 
     protected $hidden = [
         'password',
     ];
+
 }
